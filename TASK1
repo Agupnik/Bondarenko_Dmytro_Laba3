@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LABA3EX1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Random rnd = new Random();
+            Random rnd2 = new Random();
+            List<double> U = new List<double>();
+            List<double> I = new List<double>();
+            List<double> R = new List<double>();
+            double sx2, sx, sy, sxy;
+            int operations = 10;
+            sx2 = sx = sy = sxy = 0.0;
+            for (int i = 0; i < operations; i++)
+            {
+                int temp = rnd.Next(1, 50);
+                int temp2 = rnd2.Next(1, 30);
+                U.Add(temp);
+                I.Add(temp2);
+            }
+            Console.Write("U: ");
+            foreach(int el in U)
+            {
+                Console.Write(el + " ");
+            }
+            Console.WriteLine();
+            Console.Write("I: ");
+            foreach (int el2 in I)
+            {
+                Console.Write(el2 + " ");
+            }
+            for (int i = 0; i < operations; i++)
+            {
+                sx += I[i];
+                sy += U[i];
+                sx2 += I[i] * I[i];
+                sxy += I[i] * U[i];
+            }
+            double delta = (sx2 * operations) - (sx * sx);
+            double delta_a = (sxy * operations) - (sx * sy);
+            double delta_b = (sx2 * sy) - (sxy * sx);
+            double a = delta_a / delta;
+            double b = delta_b / delta;
+            Console.WriteLine();
+            Console.WriteLine($"Range Of R: y = {a}x + {b}");
+            
+            for (int i = 0; i < operations; i++)
+            {
+                double temp = U[i] / I[i];
+                R.Add(temp);
+            }
+            Console.Write("R: ");
+            foreach (double el2 in R)
+            {
+                Console.Write(el2 + " ");
+            }
+            Console.WriteLine();
+            double rs = 0;
+            
+            for (int i = 0; i < operations; i++)
+            {
+                rs += R[i];
+            }
+            Console.Write($"Middle of all known R: {rs}");
+            Console.ReadKey();
+        }
+    }
+}
