@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+namespace LABA3EX2_TRY2
+{
+    class Program
+    {
+        static void Main()
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            Random rnd = new Random();
+            int operations = 10;
+            int max = 0;
+            int min = 0;
+            for (int i = 0; i < operations; i++)
+            {
+                int o = rnd.Next(0, 1000);
+                int t = rnd.Next(0, 2000);
+                dict.Add(o, t);
+            }
+            foreach (int c in dict.Keys)
+            {
+                if (c > max)
+                {
+                    max = c;
+                    min = max;
+                }
+            }
+            foreach (int c in dict.Keys)
+            {
+                if (c < min)
+                {
+                    min = c;
+                }
+            }
+            foreach (KeyValuePair<int, int> keyValue in dict)
+            {
+
+                Console.WriteLine(keyValue.Key + " - " + keyValue.Value);
+            }
+            Console.WriteLine();
+            int x = dict[max];
+            dict[min] = x;
+            dict.Remove(max);
+            foreach (KeyValuePair<int, int> keyValue in dict)
+            {
+                Console.WriteLine(keyValue.Key + " - " + keyValue.Value);
+            }
+            Console.WriteLine("Max element: " + max);
+            Console.WriteLine("Min element: " + min);
+            foreach (var i in dict)
+            {
+                string json = JsonSerializer.Serialize(i);
+                Console.WriteLine(json);
+            }
+            using (FileStream fs = new FileStream("dictionary.json", FileMode.OpenOrCreate))
+            {
+                foreach (var i in dict)
+                {
+                    JsonSerializer.SerializeAsync(fs, i, options);
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
