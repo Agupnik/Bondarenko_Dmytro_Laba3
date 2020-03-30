@@ -59,7 +59,7 @@ namespace LABA3EX1
             Console.Write("R: ");
             foreach (double el2 in R)
             {
-                Console.Write(el2 + " ");
+                Console.Write(el2 + ", ");
             }
             Console.WriteLine();
             double rs = 0;
